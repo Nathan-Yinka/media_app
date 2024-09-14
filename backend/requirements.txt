@@ -1,0 +1,13 @@
+Django==3.2.21
+django-cloudinary-storage==0.3.0
+django-cors-headers==4.3.1
+djangorestframework==3.14.0
+drf-yasg==1.21.7
+django-cloudinary-storage
+Pillow
+python-dotenv
+
+
+
+
+b6c60969d2ad9312cac5a353e574c496b3ddf0b2
