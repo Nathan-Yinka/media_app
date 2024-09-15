@@ -33,7 +33,7 @@ SECRET_KEY = "django-insecure-y-3w_p1746b%3m5&pric@z$-g2y9y3fpb17ux%stmbb!x16f-k
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['media-app-jmcm.onrender.com']
 
 
 # Application definition
