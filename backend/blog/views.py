@@ -1,7 +1,7 @@
 from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
-from .models import BlogPost, Category
-from .serializers import BlogPostSerializer, CategorySerializer
+from .models import BlogPost, Category, UserImages
+from .serializers import BlogPostSerializer, CategorySerializer,UserImagesSerializer
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import generics
 from drf_yasg.utils import swagger_auto_schema
@@ -33,7 +33,7 @@ class BlogPostViewSet(viewsets.ModelViewSet):
         operation_summary="Create Blog Post for a user",
         operation_description="Allows authenticated users to create a new blog post.",
         manual_parameters=[
-            openapi.Parameter('image', in_=openapi.IN_FORM, type=openapi.TYPE_FILE, description='Upload blog image')
+            openapi.Parameter('thumbnail', in_=openapi.IN_FORM, type=openapi.TYPE_FILE, description='Upload blog thumbnail')
         ],
         responses={201: BlogPostSerializer}
     )
@@ -52,7 +52,7 @@ class BlogPostViewSet(viewsets.ModelViewSet):
         operation_summary="Update Blog Post",
         operation_description="Update a blog post if the user is the author.",
         manual_parameters=[
-            openapi.Parameter('image', in_=openapi.IN_FORM, type=openapi.TYPE_FILE, description='Upload new blog image')
+            openapi.Parameter('thumbnail', in_=openapi.IN_FORM, type=openapi.TYPE_FILE, description='Upload new blog thumbnail')
         ],
         responses={200: BlogPostSerializer}
     )
@@ -63,7 +63,7 @@ class BlogPostViewSet(viewsets.ModelViewSet):
         operation_summary="Partial Update Blog Post",
         operation_description="Partially update a blog post if the user is the author.",
         manual_parameters=[
-            openapi.Parameter('image', in_=openapi.IN_FORM, type=openapi.TYPE_FILE, description='Upload new blog image')
+            openapi.Parameter('image', in_=openapi.IN_FORM, type=openapi.TYPE_FILE, description='Upload new blog thumbnail')
         ],
         responses={200: BlogPostSerializer}
     )
@@ -85,17 +85,34 @@ class FeedView(generics.ListAPIView):
     serializer_class = BlogPostSerializer
 
     def get_queryset(self):
-        return BlogPost.objects.filter(status='published')
+        """
+        Retrieve the queryset of blog posts that are filtered by the 'title' and 'category'
+        query parameters if they are provided in the request.
+        """
+        queryset = BlogPost.objects.filter(status='published')
+        title = self.request.query_params.get('title', None)
+        category = self.request.query_params.get('category', None)
+        
+        if title:
+            queryset = queryset.filter(title__icontains=title)
+        if category:
+            queryset = queryset.filter(category__name__icontains=category)
 
-    
+        return queryset
+
     @swagger_auto_schema(
         operation_summary="List Published Blog Posts",
-        operation_description="Retrieves a list of all blog posts that are marked as 'published'.",
+        operation_description="Retrieves a list of all blog posts that are marked as 'published'. Allows filtering by title and category.",
+        manual_parameters=[
+            openapi.Parameter('title', openapi.IN_QUERY, description="Filter by title", type=openapi.TYPE_STRING),
+            openapi.Parameter('category', openapi.IN_QUERY, description="Filter by category name", type=openapi.TYPE_STRING)
+        ],
         responses={200: BlogPostSerializer(many=True)}
     )
     def get(self, request, *args, **kwargs):
         """ Optionally override to add extra functionality, or simply pass """
         return super().list(request, *args, **kwargs)
+
     
 class BlogPostRetrieveView(generics.RetrieveAPIView):
     queryset = BlogPost.objects.all()
@@ -106,7 +123,7 @@ class BlogPostRetrieveView(generics.RetrieveAPIView):
 
     @swagger_auto_schema(
         operation_summary="Retrieve a single blog post",
-        operation_description="Fetches a detailed view of a blog post and increments the view count.",
+        operation_description="Fetches a detailed view of a blog post and update th last read",
         responses={200: BlogPostSerializer}
     )
     def get(self, request, *args, **kwargs):
@@ -129,5 +146,36 @@ class CategoryListView(generics.ListAPIView):
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
     
-    
+class UserImagesCreateView(generics.ListCreateAPIView):
+    queryset = UserImages.objects.all()
+    serializer_class = UserImagesSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    parser_classes = (MultiPartParser, FormParser)
 
+    @swagger_auto_schema(
+        operation_summary="List uploaded images",
+        operation_description="Retrieves a list of all uploaded images associated with users.",
+        responses={200: UserImagesSerializer(many=True)}
+    )
+    def get(self, request, *args, **kwargs):
+        """ Retrieves a list of images """
+        return super().list(request, *args, **kwargs)
+
+    @swagger_auto_schema(
+        operation_summary="Upload an image",
+        operation_description="Uploads an image file associated with a user.",
+        manual_parameters=[
+            openapi.Parameter(
+                name="image",
+                in_=openapi.IN_FORM,
+                description="Upload an image file. Only JPEG and PNG are allowed.",
+                type=openapi.TYPE_FILE,
+                required=True,
+            )
+        ],
+        consumes=['multipart/form-data'],
+        responses={201: UserImagesSerializer(many=False)}
+    )
+    def post(self, request, *args, **kwargs):
+        """ Handles image upload """
+        return super().create(request, *args, **kwargs)

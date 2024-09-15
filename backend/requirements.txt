@@ -6,8 +6,6 @@ drf-yasg==1.21.7
 django-cloudinary-storage
 Pillow
 python-dotenv
-
-
-
-
-b6c60969d2ad9312cac5a353e574c496b3ddf0b2
+psycopg2-binary==2.9.9
+whitenoise==6.5.0
+gunicorn==21.2.0

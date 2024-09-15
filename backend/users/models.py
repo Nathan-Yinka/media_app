@@ -8,7 +8,7 @@ class Role(models.TextChoices):
     ADMINISTRATOR = 'AD', _('Administrator')
 
 class CustomUserManager(BaseUserManager):
-    def create_user(self, username, email=None, mobile=None, password=None, role=Role.CONTENT_CREATOR, **extra_fields):
+    def create_user(self, username=None, email=None, mobile=None, password=None, role=Role.CONTENT_CREATOR, **extra_fields):
         if not username and not email and not mobile:
             raise ValueError(_('You must provide at least one identifier: email, mobile, or username'))
 
@@ -18,7 +18,7 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
     
-    def create_superuser(self, username, email=None, mobile=None, password=None, role=Role.ADMINISTRATOR, **extra_fields):
+    def create_superuser(self, username=None, email=None, mobile=None, password=None, role=Role.ADMINISTRATOR, **extra_fields):
         if not password:
             raise ValueError(_('Superusers must have a password.'))
 
@@ -28,7 +28,7 @@ class CustomUserManager(BaseUserManager):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
 
-        return self.create_user(username=username, email=email, mobile=mobile, password=password, **extra_fields)
+        return self.create_user(username=username, email=email, mobile=mobile, password=password,role=role, **extra_fields)
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -39,9 +39,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     first_name = models.CharField(_("first_name"),max_length=50)
     last_name = models.CharField(_("last_name"),max_length=50)
-    username = models.CharField(_("username"), max_length=50, unique=True)
+    username = models.CharField(_("username"), max_length=50, unique=True,null=True, blank=True)
     
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = [] 
 
     objects = CustomUserManager()
