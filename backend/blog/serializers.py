@@ -24,3 +24,8 @@ class UserImagesSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserImages
         fields = ['user', 'image', 'name']
+        
+    def create(self, validated_data):
+        validated_data['user'] = self.context['request'].user
+        return super(UserImagesSerializer, self).create(validated_data)
+
