@@ -33,7 +33,7 @@ SECRET_KEY = "django-insecure-y-3w_p1746b%3m5&pric@z$-g2y9y3fpb17ux%stmbb!x16f-k
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['media-app-jmcm.onrender.com','127.0.0.1']
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -65,6 +65,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -238,3 +239,12 @@ DATABASES = {
     },
   }
 }
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+
+]
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'  
