@@ -24,7 +24,8 @@ class BlogPostSerializer(serializers.ModelSerializer):
     status = serializers.CharField(read_only=True)
     last_read = serializers.DateTimeField(read_only=True)
     author_details = UserSerializer(read_only=True,source='author')
-    
+    category_details = CategorySerializer(source="category", read_only=True)
+    is_owner = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = BlogPost
         fields = "__all__"
@@ -32,6 +33,12 @@ class BlogPostSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data['author'] = self.context['request'].user
         return super(BlogPostSerializer, self).create(validated_data)
+    
+    def get_is_owner(self,obj):
+        try:
+            return obj.author == self.context['request'].user
+        except:
+            return False
 
 class UserImagesSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(read_only=True)

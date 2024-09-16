@@ -19,7 +19,7 @@ class BlogPost(models.Model):
         choices=[
             ('in_review', 'In Review'), 
             ('published', 'Published'),
-            ('revoked', 'Revoked')
+            ('flagged', 'Flagged')
         ],
         default='in_review'
     )

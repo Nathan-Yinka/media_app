@@ -5,6 +5,8 @@ from rest_framework import generics
 
 from django.contrib.auth import get_user_model
 
+from .models import Role
+
 User = get_user_model()
 
 from .serializers import UserRegistrationSerializer
@@ -20,7 +22,8 @@ class CustomAuthTokenView(ObtainAuthToken):
         return Response({
             'token': token.key,
             'user_id': user.pk,
-            'email': user.email
+            'email': user.email,
+            "is_admin": user.role == Role.ADMINISTRATOR
         })
         
 class UserRegistrationView(generics.CreateAPIView):

@@ -18,8 +18,11 @@ class BlogPostViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        if user.is_authenticated:
-            return super().get_queryset().filter(author=user)
+        status = self.request.query_params.get('status', None)
+        queryset = super().get_queryset().filter(author=user)
+        if status:
+            queryset = queryset.filter(status=status) 
+            return queryset
 
     @swagger_auto_schema(
         operation_summary="List Blog Posts",
@@ -129,7 +132,7 @@ class BlogPostRetrieveView(generics.RetrieveAPIView):
     def get(self, request, *args, **kwargs):
         instance = self.get_object()
         instance.view_count += 1
-        instance.save(update_fields=['view_count'])
+        instance.save()
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
     
