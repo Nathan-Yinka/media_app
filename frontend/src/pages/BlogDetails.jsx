@@ -1,5 +1,7 @@
+import StatusSelect from "@/components/StatusSelect";
 import { LoadingHome } from "@/components/loading-home";
 import { Button } from "@/components/ui/button";
+import { createAxiosInstance } from "@/config/axios-config";
 import { ENDPOINT } from "@/constants/endpoints-const";
 import { routeConstants } from "@/constants/route-const";
 import { isAdmin } from "@/helpers/auth";
@@ -8,21 +10,62 @@ import { getCategoryColor } from "@/helpers/get-category-color";
 import { convertTimestamp, timeAgo } from "@/helpers/timeformatter";
 import { useBlogDetails } from "@/hooks/use-blog-details";
 import { ArrowLeft } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "sonner";
 
 const BlogDetails = () => {
    const { id } = useParams();
    const navigate = useNavigate();
+   const baseAxios = createAxiosInstance();
    const { handleDelete, blogDetails,isLoading,fetchBlogDetails } = useBlogDetails();
+   const [status, setStatus] = useState({})
 
    const { textColor, backgroundColor } = getCategoryColor(
       blogDetails?.category_details?.name || "lifestyle"
    );
 
+   const fetchEndpoint = isAdmin()?ENDPOINT.ADMIN_BLOG_DETAILS: ENDPOINT.GET_BLOG_DETAIL
+
    useEffect(()=>{
-      fetchBlogDetails(ENDPOINT.GET_BLOG_DETAIL.replace(":id", id));
+      fetchBlogDetails(fetchEndpoint.replace(":id", id));
    },[fetchBlogDetails,id])
+
+   const statusData = [
+      {
+         name: 'Published',
+         value: 'published'
+      },
+      {
+         name: 'In Review',
+         value: 'in_review'
+      },
+      {
+         name: 'Flagged',
+         value: 'flagged'
+      }
+   ]
+
+   useEffect(() => {
+      if (blogDetails?.status) {
+          const foundStatus = statusData.find((item) => item.value === blogDetails.status);
+          setStatus(foundStatus);
+      }
+  }, [blogDetails]);  
+
+
+
+  const handleItemClick = async (value) => {
+   const formData = new FormData();
+   formData.append("status", value.value);
+   try {
+       const response = await baseAxios.patch(ENDPOINT.ADMIN_UPDATE_STATUS.replace(":id",id),formData);
+       toast.success(`Blog Status Updated to ${value.name}`)
+   } catch (error) {
+      toast.error(error.message)
+   }
+};
+
 
 
 
@@ -53,7 +96,20 @@ const BlogDetails = () => {
             >
                Edit
             </Button>
+
+         {
+            isAdmin() && (
+               <StatusSelect 
+               DropdownData={statusData}
+               selected={status}
+               setSelected={setStatus}
+               handleItemClick={handleItemClick}
+               />
+            )
+         }
          </section>
+
+         
 
          {/* Header Title Section */}
          <section className="mt-8">

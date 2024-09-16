@@ -6,7 +6,7 @@ import { createAxiosInstance } from "@/config/axios-config";
 import { ENDPOINT } from "@/constants/endpoints-const";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
-import Loader from "@/components/loader";
+import Loader from "@/components/Loader";
 import { handleLoginSuccess } from "@/helpers/auth";
 import { routeConstants } from "@/constants/route-const";
 

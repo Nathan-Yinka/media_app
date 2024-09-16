@@ -10,6 +10,7 @@ function App() {
             position={"top-right"}
             richColors
             duration={5000}
+            className="z-[9999999999999999999]"
             closeButton
          />
       </BrowserRouter>

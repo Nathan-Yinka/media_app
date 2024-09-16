@@ -5,14 +5,14 @@ import { Label, Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@h
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 
 
-export default function Dropdown({ DropdownData, selected, setSelected  }) {
+export default function StatusSelect({ DropdownData, selected, setSelected,handleItemClick  }) {
 //   const [selected, setSelected] = useState(people[3])
 
   return (
     <Listbox value={selected} onChange={setSelected}>
       {/* <Label className="block text-sm font-medium leading-6 text-gray-900">Assigned to</Label> */}
       <div className="relative">
-        <ListboxButton className="relative cursor-default rounded-md py-2 pl-2 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300  sm:leading-6 placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300  focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm">
+        <ListboxButton className="relative cursor-default rounded-md py-2 pl-2 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset  sm:leading-6 placeholder:italic placeholder:text-slate-400 block bg-white w-full border  focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm" >
           <span className="flex items-center">
             <span className="ml-3 block truncate">{selected?.name}</span>
           </span>
@@ -25,16 +25,17 @@ export default function Dropdown({ DropdownData, selected, setSelected  }) {
           transition
           className="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none data-[closed]:data-[leave]:opacity-0 data-[leave]:transition data-[leave]:duration-100 data-[leave]:ease-in sm:text-sm"
         >
-          {DropdownData?.map((person) => (
+          {DropdownData?.map((item,index) => (
             <ListboxOption
-              key={person.id}
-              value={person}
+              key={index}
+              value={item}
               className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900 data-[focus]:bg-sky-500 data-[focus]:text-white"
+              onClick={()=>handleItemClick(item)}
             >
               <div className="flex items-center">
                 {/* <img alt="" src={person.avatar} className="h-5 w-5 flex-shrink-0 rounded-full" /> */}
                 <span className="ml-3 block truncate font-normal group-data-[selected]:font-semibold">
-                  {person.name}
+                  {item.name}
                 </span>
               </div>
 

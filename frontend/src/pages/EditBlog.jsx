@@ -1,6 +1,6 @@
 import TextEditor from "@/components/TextEditor";
 import Dropdown from "@/components/dropdown";
-import Loader from "@/components/loader";
+import Loader from "@/components/Loader";
 import { LoadingHome } from "@/components/loading-home";
 import { Button } from "@/components/ui/button";
 import { createAxiosInstance } from "@/config/axios-config";
@@ -108,6 +108,9 @@ const EditBlog = () => {
         setIsLoading(false)
     }
     };
+
+
+    
 
     if (blogDetailLoading){
         return <LoadingHome/>

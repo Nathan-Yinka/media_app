@@ -8,4 +8,8 @@ export const ENDPOINT = {
     DELETE_BLOG: "blog/blogposts/:id/",
     EDIT_BLOG: "blog/blogposts/:id/",
     MY_BLOGS: "blog/blogposts/",
+    ADMIN_GET_BLOG: "admin/blogposts/",
+    ADMIN_UPDATE_STATUS: "admin/blogposts/:id/",
+    ADMIN_BLOG_DETAILS: "admin/blogposts/:id/",
+    ADMIN_CATEGORY_CREATE: 'admin/categories/',
 }

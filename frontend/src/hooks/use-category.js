@@ -43,5 +43,32 @@ export function useCategory() {
         [] // searchParams as a dependency to refresh the function when searchParams change.
     );
 
+    const createCategory = useCallback(
+        async (url) => {
+            setCategoryData((prev) => ({
+                ...prev,
+                isLoading: true,
+            }));
+            try {
+
+
+                const response = await baseAxios.get(url);
+                const newData = add_all?[{ id: 0, name: "All" },...response.data]: response.data;
+                setCategoryData((prev) => ({
+                    ...prev,
+                    isLoading: false,
+                    data: newData
+                }));
+            } catch (err) {
+                setCategoryData((prev) => ({
+                    ...prev,
+                    isLoading: false,
+                }));
+                toast.error(err.message); // Make sure that toast.error is suitable for your toast notification library.
+            }
+        },
+        [] // searchParams as a dependency to refresh the function when searchParams change.
+    );
+
     return { categoryData, fetchCategory };
 }

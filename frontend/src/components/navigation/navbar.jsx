@@ -2,7 +2,6 @@ import { routeConstants } from "@/constants/route-const";
 import { useIsRouteActive } from "@/hooks/use-is-route-active";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "../ui/button";
-import { navigationConstants } from "@/constants/navigation-const";
 import { cn } from "@/lib/utils";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { MenuItem } from "./menu-item";

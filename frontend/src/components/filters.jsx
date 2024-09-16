@@ -8,10 +8,13 @@ import { filterConstants } from "@/constants/filter-const";
 import { routeConstants } from "@/constants/route-const";
 
 import { useFilter } from "@/hooks/use-fiilter";
+import CategoryModal from "./CategoryModal";
+import { useState } from "react";
 
 export const Filters = ({categoryData}) => {
    const navigate = useNavigate();
    const { formValues, handleSetFormField } = useFilter(categoryData);
+   const [open,setOpen] = useState(false);
 
 console.log(categoryData?.data)
 
@@ -25,6 +28,10 @@ const options = categoryData && categoryData.data && categoryData.data.length > 
    return (
       <div className="flex flex-wrap items-center justify-between w-full gap-3">
          <div className="flex gap-2">
+         <CategoryModal
+         open={open}
+         setOpen={setOpen}
+         />
             <ComboBox
                array={options}
                defaultValue={formValues.category}
@@ -39,6 +46,14 @@ const options = categoryData && categoryData.data && categoryData.data.length > 
                onClick={() => navigate(routeConstants.create)}
             >
                <PlusIcon strokeWidth={2} className="mr-2" /> Create New
+            </Button>
+
+            <Button
+               variant=""
+               onClick={() => setOpen(true)}
+               className={"bg-primary"}
+            >
+               <PlusIcon strokeWidth={2} className="mr-2" /> Create Category
             </Button>
          </div>
 

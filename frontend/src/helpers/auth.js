@@ -3,9 +3,10 @@ import { toast } from "sonner";
 
 
 export const handleLoginSuccess = (payload) => {
-    const { token,is_admin } = payload
+    const { token,is_admin,username } = payload
     localStorage.setItem('authToken', token);
-    localStorage.setItem('is_admin', false);
+    localStorage.setItem('is_admin', is_admin);
+    localStorage.setItem('username', username);
   };
 
 
@@ -29,3 +30,7 @@ export const isAdmin = () => {
 export const getToken = () => {
     return localStorage.getItem('authToken');
 };
+
+export const getUserName = () => {
+  return localStorage.getItem('username');
+}

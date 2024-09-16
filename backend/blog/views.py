@@ -6,7 +6,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import generics
 from drf_yasg.utils import swagger_auto_schema
 
-from media_api.permissions import IsAuthorOrReadOnly
+from media_api.permissions import IsAuthorOrAdminOrReadOnly
 from drf_yasg import openapi
 
 
@@ -14,15 +14,7 @@ class BlogPostViewSet(viewsets.ModelViewSet):
     queryset = BlogPost.objects.all()
     serializer_class = BlogPostSerializer
     parser_classes = (MultiPartParser, FormParser,)
-    permission_classes = [permissions.IsAuthenticated, IsAuthorOrReadOnly]
-
-    def get_queryset(self):
-        user = self.request.user
-        status = self.request.query_params.get('status', None)
-        queryset = super().get_queryset().filter(author=user)
-        if status:
-            queryset = queryset.filter(status=status) 
-            return queryset
+    permission_classes = [permissions.IsAuthenticated, IsAuthorOrAdminOrReadOnly]
 
     @swagger_auto_schema(
         operation_summary="List Blog Posts",
@@ -30,7 +22,13 @@ class BlogPostViewSet(viewsets.ModelViewSet):
         responses={200: BlogPostSerializer(many=True)}
     )
     def list(self, request, *args, **kwargs):
-        return super().list(request, *args, **kwargs)
+        user = self.request.user
+        statusblog = self.request.query_params.get('status', None)
+        queryset = super().get_queryset().filter(author=user)
+        if status:
+            queryset = queryset.filter(status=statusblog)
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(
         operation_summary="Create Blog Post for a user",

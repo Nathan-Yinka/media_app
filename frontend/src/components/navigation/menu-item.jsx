@@ -1,17 +1,19 @@
 import PropTypes from "prop-types";
-import { navigationConstants } from "@/constants/navigation-const";
+import { run_nav } from "@/constants/navigation-const";
 import { useIsRouteActive } from "@/hooks/use-is-route-active";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { routeConstants } from "@/constants/route-const";
+import { isAdmin } from "@/helpers/auth";
 
 export const MenuItem = ({ closeModal }) => {
    const location = useLocation();
    const isRouteActive = useIsRouteActive();
+   const navigationConstants = run_nav();
 
    return (
-      <div className="flex items-center justify-between w-full gap-1 max-lg:flex-col lg:ml-auto lg:max-w-2xl">
+      <div className={`flex items-center justify-between w-full gap-1 max-lg:flex-col lg:ml-auto ${isAdmin()?'lg:max-w-3xl':"lg:max-w-2xl"}`}>
          <ul className="flex items-center gap-y-4 max-lg:w-full max-lg:flex-col">
             {navigationConstants.menu
                .filter((item) => !item.btn)

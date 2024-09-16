@@ -13,7 +13,9 @@ const BlogInReview = React.lazy(() => import("@/pages/BlogInReview"))
 const FlaggedBlog = React.lazy(() => import("@/pages/FlaggedBlog"))
 const CreateBlog = React.lazy(() => import("@/pages/Create"))
 const EditBlog = React.lazy(() => import("@/pages/EditBlog"))
+const AdminBoard = React.lazy(() => import("@/pages/AdminBoard"))
 const Signup = React.lazy(() => import("@/pages/auth/Signup"))
+const Logout = React.lazy(() => import("@/pages/auth/Logout"))
 
 const Routes = () => {
 
@@ -24,6 +26,7 @@ const Routes = () => {
          <Router>
             <Route index element={<Navigate to={routeConstants.login} />} />
             <Route path={routeConstants.login} element={<Login />} />
+            <Route path={routeConstants.logout} element={<Logout />} />
             <Route path={routeConstants.signup} element={<Signup />} />
             <Route path={routeConstants.home} element={<Home />} />
             <Route path={routeConstants.myBlogs} element={<MyBlog />} />
@@ -32,6 +35,7 @@ const Routes = () => {
             <Route path={routeConstants.blogDetails} element={<BlogDetails />}/>
             <Route path={routeConstants.create} element={<CreateBlog />}/>
             <Route path={routeConstants.edit} element={<EditBlog />}/>
+            <Route path={routeConstants.admin} element={<AdminBoard />}/>
 
          </Router>
       </React.Suspense>

@@ -23,7 +23,8 @@ class CustomAuthTokenView(ObtainAuthToken):
             'token': token.key,
             'user_id': user.pk,
             'email': user.email,
-            "is_admin": user.role == Role.ADMINISTRATOR
+            "is_admin": user.role == Role.ADMINISTRATOR,
+            "username":user.username,
         })
         
 class UserRegistrationView(generics.CreateAPIView):
