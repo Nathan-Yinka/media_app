@@ -9,7 +9,7 @@ import { ENDPOINT } from "@/constants/endpoints-const";
 export const useFilter = () => {
    const [searchParams, setSearchParams] = useSearchParams();
    const [formValues, setFormValues] = useState({
-      category: searchParams.get("category") || filterConstants.category[0],
+      category: searchParams.get("category"),
       search: searchParams.get("search"),
    });
    

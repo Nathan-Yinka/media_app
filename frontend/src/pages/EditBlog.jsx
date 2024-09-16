@@ -12,6 +12,7 @@ import { ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
+import { isLoggedIn } from "@/helpers/auth";
 
 const EditBlog = () => {
    const navigate = useNavigate();
@@ -26,9 +27,14 @@ const EditBlog = () => {
    const [isLoading, setIsLoading] = useState(false)
    const [existingImageUrl,setExistingImageUrl] = useState("")
 
+
+   useEffect(()=>{
+      !isLoggedIn() && navigate(routeConstants.login)
+   },[])
+
    useEffect(() => {
-        fetchBlogDetails(ENDPOINT.GET_BLOG_DETAIL.replace(":id", id));
-        fetchCategory(ENDPOINT.GET_CATEGORY, false);
+      isLoggedIn() &&  fetchBlogDetails(ENDPOINT.GET_BLOG_DETAIL.replace(":id", id));
+      isLoggedIn() && fetchCategory(ENDPOINT.GET_CATEGORY, false);
    }, [fetchBlogDetails,id]);
 
 

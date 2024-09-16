@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import Loader from "@/components/Loader";
 import { handleLoginSuccess } from "@/helpers/auth";
+import { routeConstants } from "@/constants/route-const";
 
 
 const Login = () => {
@@ -65,8 +66,9 @@ const Login = () => {
             <span className="text-black/50 hover:text-black">Back</span>
          </Button>
 
-      <h1 className="font-bold text-3xl text-center mt-3">Login</h1>
+      <h1 className="font-bold text-3xl text-center mt-3 cursor-pointer" onClick={()=>navigate(routeConstants.home)}>Login</h1>
       <p className="text-black/60 text-center text-xs my-3">Get access into your account</p>
+      <p className="text-primary text-center text-xs my-3 cursor-pointer" onClick={()=>navigate(routeConstants.signup)}>click here to signup</p>
 
       <form action="" className="flex flex-col gap-5 container py-5 md:w-[95%] mb-10" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-3">

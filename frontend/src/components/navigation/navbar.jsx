@@ -1,6 +1,6 @@
 import { routeConstants } from "@/constants/route-const";
 import { useIsRouteActive } from "@/hooks/use-is-route-active";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { useMediaQuery } from "@/hooks/use-media-query";
@@ -20,6 +20,7 @@ import { useEffect, useState } from "react";
 export const Navbar = () => {
    const location = useLocation();
    const isDesktop = useMediaQuery("(min-width: 1024px)");
+   const navigate = useNavigate();
 
    const [isOpen, setIsOpen] = useState(false);
 
@@ -31,7 +32,7 @@ export const Navbar = () => {
    return (
       <nav className="sticky top-0 left-0 z-20 bg-background">
          <header className="container flex items-center justify-between h-16 lg:gap-0">
-            <h1 className="text-xl font-bold">Mediom</h1>
+            <h1 className="text-3xl font-bold cursor-default" onClick={()=>navigate(routeConstants.home)}>Med<span className="text-primary">iom</span></h1>
 
             {isDesktop && <MenuItem />}
 

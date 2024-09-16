@@ -11,6 +11,8 @@ import { ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { isLoggedIn } from "@/helpers/auth";
+import { routeConstants } from "@/constants/route-const";
 
 const CreateBlog = () => {
    const navigate = useNavigate();
@@ -24,8 +26,12 @@ const CreateBlog = () => {
    const [isLoading, setIsLoading] = useState(false)
    const [existingImageUrl,setExistingImageUrl] = useState("")
 
+   useEffect(()=>{
+      !isLoggedIn() && navigate(routeConstants.login)
+   },[])
+
    useEffect(() => {
-      fetchCategory(ENDPOINT.GET_CATEGORY, false);
+       fetchCategory(ENDPOINT.GET_CATEGORY, false);
    }, []);
 
    useEffect(() => {
@@ -118,6 +124,7 @@ const CreateBlog = () => {
          </Button>
 
          <form className="flex flex-col gap-5 container py-5 md:w-[80%] my-10" onSubmit={handleSubmit}>
+            <h1 className="text-3xl text-center font-bold">Create Blog </h1>
             {/* Blog Title */}
             <div className="flex flex-col gap-1">
                <label htmlFor="title" className="text-sm font-bold">

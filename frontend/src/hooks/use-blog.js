@@ -26,10 +26,17 @@ export function useBlogs() {
             }));
             try {
                 // Convert searchParams to a suitable object for axios
-                const params = Array.from(searchParams.entries()).reduce((acc, [key, value]) => ({
+                let params = Array.from(searchParams.entries()).reduce((acc, [key, value]) => ({
                     ...acc,
                     [key]: value
                 }), {});
+
+
+                const cat_value = params.category
+                if (cat_value=="all"){
+                    params = { ...params,category:""}
+                }
+                
 
                 const response = await baseAxios.get(url, { params });
                 setBlogData((prev) => ({

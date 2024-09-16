@@ -13,6 +13,7 @@ export const handleLoginSuccess = (payload) => {
 export const handleLogout = () => {
     localStorage.removeItem('authToken');
     localStorage.removeItem('is_admin');
+    localStorage.removeItem('username');
     toast.success('User logged out successfully');
   };
 

@@ -3,6 +3,7 @@ import { Routes as Router, Route, Navigate } from "react-router-dom";
 import { routeConstants } from "./constants/route-const";
 import { Navbar } from "./components/navigation/navbar";
 import { LoadingHome } from "./components/loading-home";
+import NotFound from "./pages/NotFound";
 
 // Pages imports.
 const Login = React.lazy(() => import("@/pages/auth/Login"))
@@ -24,7 +25,7 @@ const Routes = () => {
          <Navbar />
 
          <Router>
-            <Route index element={<Navigate to={routeConstants.login} />} />
+            <Route index  element={<Home />} />
             <Route path={routeConstants.login} element={<Login />} />
             <Route path={routeConstants.logout} element={<Logout />} />
             <Route path={routeConstants.signup} element={<Signup />} />
@@ -36,6 +37,7 @@ const Routes = () => {
             <Route path={routeConstants.create} element={<CreateBlog />}/>
             <Route path={routeConstants.edit} element={<EditBlog />}/>
             <Route path={routeConstants.admin} element={<AdminBoard />}/>
+            <Route path="*" element={<NotFound />} />
 
          </Router>
       </React.Suspense>

@@ -10,6 +10,7 @@ import { routeConstants } from "@/constants/route-const";
 import { useFilter } from "@/hooks/use-fiilter";
 import CategoryModal from "./CategoryModal";
 import { useState } from "react";
+import { isAdmin } from "@/helpers/auth";
 
 export const Filters = ({categoryData}) => {
    const navigate = useNavigate();
@@ -21,20 +22,20 @@ console.log(categoryData?.data)
 const options = categoryData && categoryData.data && categoryData.data.length > 0
     ? categoryData.data.map(item => ({
         label: item.name,
-        value: String(item.id)
+        value: item.name === "All"? "":item.name
       }))
     : [];
 
    return (
       <div className="flex flex-wrap items-center justify-between w-full gap-3">
          <div className="flex gap-2">
-         <CategoryModal
+         {isAdmin() && <CategoryModal
          open={open}
          setOpen={setOpen}
-         />
+         />}
             <ComboBox
                array={options}
-               defaultValue={formValues.category}
+               defaultValue={formValues.category||"all"}
                onValueChange={(value) => handleSetFormField("category", value)}
                triggerClassName="bg-transparent shadow-none"
                popoverContentClassName="min-w-[140px]"
@@ -48,13 +49,15 @@ const options = categoryData && categoryData.data && categoryData.data.length > 
                <PlusIcon strokeWidth={2} className="mr-2" /> Create New
             </Button>
 
-            <Button
+            {
+               isAdmin() && <Button
                variant=""
                onClick={() => setOpen(true)}
                className={"bg-primary"}
             >
                <PlusIcon strokeWidth={2} className="mr-2" /> Create Category
             </Button>
+            }
          </div>
 
          <div className="relative flex-1 max-w-xs min-w-[200px]">

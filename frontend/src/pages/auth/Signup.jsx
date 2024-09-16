@@ -132,8 +132,9 @@ const Signup = () => {
             <span className="text-black/50 hover:text-black">Back</span>
          </Button>
 
-      <h1 className="font-bold text-3xl text-center">Signup</h1>
+      <h1 className="font-bold text-3xl text-center cursor-pointer" onClick={()=>navigate(routeConstants.home)}>Signup</h1>
       <p className="text-black/60 text-center text-xs my-3">Create your content creator account</p>
+      <p className="text-primary text-center text-xs my-3 cursor-pointer" onClick={()=>navigate(routeConstants.login)}>click here to login</p>
 
       <form action="" className="flex flex-col gap-5 container py-5 md:w-[95%] mb-10" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-3">

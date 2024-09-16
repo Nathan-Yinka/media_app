@@ -91,7 +91,7 @@ class FeedView(generics.ListAPIView):
         query parameters if they are provided in the request.
         """
         queryset = BlogPost.objects.filter(status='published')
-        title = self.request.query_params.get('title', None)
+        title = self.request.query_params.get('search', None)
         category = self.request.query_params.get('category', None)
         
         if title:
