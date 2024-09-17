@@ -120,7 +120,10 @@ class BlogPostRetrieveView(generics.RetrieveAPIView):
     serializer_class = BlogPostSerializer
     
     def get_queryset(self):
-        return BlogPost.objects.filter()
+        if self.request.user.is_authenticated:
+            return self.queryset.objects.filter(author=self.request.user)
+        else:
+            return BlogPost.objects.filter(status='published')
 
     @swagger_auto_schema(
         operation_summary="Retrieve a single blog post",
