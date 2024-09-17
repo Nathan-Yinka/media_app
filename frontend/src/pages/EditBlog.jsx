@@ -12,7 +12,7 @@ import { ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
-import { isLoggedIn } from "@/helpers/auth";
+import { isAdmin, isLoggedIn } from "@/helpers/auth";
 
 const EditBlog = () => {
    const navigate = useNavigate();
@@ -32,8 +32,10 @@ const EditBlog = () => {
       !isLoggedIn() && navigate(routeConstants.login)
    },[])
 
+   const fetchEndpoint = isAdmin()?ENDPOINT.ADMIN_BLOG_DETAILS: ENDPOINT.GET_BLOG_DETAIL
+
    useEffect(() => {
-      isLoggedIn() &&  fetchBlogDetails(ENDPOINT.GET_BLOG_DETAIL.replace(":id", id));
+      isLoggedIn() &&  fetchBlogDetails(fetchEndpoint.replace(":id", id));
       isLoggedIn() && fetchCategory(ENDPOINT.GET_CATEGORY, false);
    }, [fetchBlogDetails,id]);
 
