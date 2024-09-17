@@ -60,7 +60,7 @@ const Login = () => {
       <Button
             className="mt-10 ml-3"
             variant="ghost"
-            onClick={() => navigate(-1, { replace: true })}
+            onClick={() => navigate(routeConstants.home)}
          >
             <ArrowLeft className="mr-2 size-4" />
             <span className="text-black/50 hover:text-black">Back</span>
@@ -68,7 +68,7 @@ const Login = () => {
 
       <h1 className="font-bold text-3xl text-center mt-3 cursor-pointer" onClick={()=>navigate(routeConstants.home)}>Login</h1>
       <p className="text-black/60 text-center text-xs my-3">Get access into your account</p>
-      <p className="text-primary text-center text-xs my-3 cursor-pointer" onClick={()=>navigate(routeConstants.signup)}>click here to signup</p>
+      <p className="text-primary text-center text-sm my-3 cursor-pointer" onClick={()=>navigate(routeConstants.signup)}>click here to signup</p>
 
       <form action="" className="flex flex-col gap-5 container py-5 md:w-[95%] mb-10" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-3">
