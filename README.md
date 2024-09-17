@@ -107,27 +107,6 @@ This web application is a media platform that enables content creators and admin
 You can now test the login, role-based access, and content management features.
 
 
-### Running the Application with Docker Compose
-1. **Clone the repository:**
-   ```bash
-   git clone <repository-url>
-   cd <project-directory>
-   ```
-
-2. **Build and run the containers:**
-    ```
-    docker-compose up --build
-    ```
-
-3. **Access the application:**
-- Backend API (Django): http://localhost:8000
-- Frontend (React): http://localhost:5173
-
-4. **Stopping the Application:**
-- To stop the containers, run:
-    ```
-    docker-compose down
-    ```
 ### Database Configuration:
 
 1. Create a MySQL database and update the DATABASE_URL in your Django .env file.
