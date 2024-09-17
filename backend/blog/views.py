@@ -120,7 +120,7 @@ class BlogPostRetrieveView(generics.RetrieveAPIView):
     serializer_class = BlogPostSerializer
     
     def get_queryset(self):
-        return BlogPost.objects.filter(status='published')
+        return BlogPost.objects.filter()
 
     @swagger_auto_schema(
         operation_summary="Retrieve a single blog post",
